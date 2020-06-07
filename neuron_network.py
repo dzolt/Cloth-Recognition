@@ -1,9 +1,8 @@
 import tensorflow as tf
 from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Flatten, Dense
-from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
-from tensorflow.keras import regularizers
+from tensorflow.keras.layers import Flatten, Dense, Dropout
+import matplotlib.pyplot as plt
 
 ### DATA PREPARE
 fashion_mnist = tf.keras.datasets.fashion_mnist
@@ -21,17 +20,13 @@ y_val = to_categorical(y_val, len(labels))
 
 ### MODEL PREPARE
 model = Sequential()
-ModelCheck = ModelCheckpoint(filepath='best_model.h5',
-                             monitor='val_accuracy',
-                             save_best_only=True)
-EarlyStop = EarlyStopping(monitor='val_loss',
-                          patience=5,
-                          verbose=1)
-
 model.add(Flatten(input_shape=(28, 28)))
 model.add(Dense(128, activation='sigmoid'))
+model.add(Dropout(0.2))
 model.add(Dense(64, activation='sigmoid'))
+model.add(Dropout(0.2))
 model.add(Dense(32, activation='sigmoid'))
+model.add(Dropout(0.2))
 model.add(Dense(10, activation='softmax'))
 
 model.compile(optimizer='adam',
@@ -43,5 +38,31 @@ history = model.fit(X_train,
                     epochs=50,
                     verbose=1,
                     batch_size=256,
-                    validation_data=(X_val, y_val),
-                    callbacks=[ModelCheck, EarlyStop])
+                    validation_data=(X_val, y_val))
+
+
+def draw_curves(history, key1='accuracy', ylim1=(0.8, 1.00),
+                key2='loss', ylim2=(0.0, 1.0)):
+    plt.figure(figsize=(12, 4))
+
+    plt.subplot(1, 2, 1)
+    plt.plot(history.history[key1], "r--")
+    plt.plot(history.history['val_' + key1], "g--")
+    plt.ylabel(key1)
+    plt.xlabel('Epoch')
+    plt.ylim(ylim1)
+    plt.legend(['train', 'test'], loc='best')
+
+    plt.subplot(1, 2, 2)
+    plt.plot(history.history[key2], "r--")
+    plt.plot(history.history['val_' + key2], "g--")
+    plt.ylabel(key2)
+    plt.xlabel('Epoch')
+    plt.ylim(ylim2)
+    plt.legend(['train', 'test'], loc='best')
+
+    plt.show()
+
+
+draw_curves(history, key1='accuracy', ylim1=(0.7, 0.95),
+            key2='loss', ylim2=(0.0, 0.8))
