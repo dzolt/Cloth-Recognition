@@ -101,7 +101,3 @@ def model_selection_knn(X_val, X_train, y_val, y_train, k_values):
             best_k = k
     print(f"Best accuracy: {1 - best_err} \nBest k: {best_k}")
     return 1 - best_err, best_k
-
-
-
-model_selection_knn(X_test, X_train, y_test, y_train, k_values)

@@ -33,16 +33,20 @@ model.compile(optimizer='adam',
               loss='categorical_crossentropy',
               metrics=['accuracy'])
 
-history = model.fit(X_train,
-                    y_train,
-                    epochs=50,
-                    verbose=1,
-                    batch_size=256,
-                    validation_data=(X_val, y_val))
 
+
+def start(X_train, y_train, epchos, verbose, batch_size, validation_data):
+    history = model.fit(X_train,
+                        y_train,
+                        epochs=50,
+                        verbose=1,
+                        batch_size=256,
+                        validation_data=(X_val, y_val))
+    return history
 
 def draw_curves(history, key1='accuracy', ylim1=(0.8, 1.00),
                 key2='loss', ylim2=(0.0, 1.0)):
+
     plt.figure(figsize=(12, 4))
 
     plt.subplot(1, 2, 1)
@@ -64,5 +68,3 @@ def draw_curves(history, key1='accuracy', ylim1=(0.8, 1.00),
     plt.show()
 
 
-draw_curves(history, key1='accuracy', ylim1=(0.7, 0.95),
-            key2='loss', ylim2=(0.0, 0.8))
