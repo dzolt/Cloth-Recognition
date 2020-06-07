@@ -5,17 +5,9 @@ from tensorflow.keras.layers import Flatten, Dense, Dropout
 import matplotlib.pyplot as plt
 
 ### DATA PREPARE
-fashion_mnist = tf.keras.datasets.fashion_mnist
-(X_train, y_train), (X_val, y_val) = fashion_mnist.load_data()
 labels = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat', 'Sandal', 'Shirt', 'Sneaker',
           'Bag', 'Ankle boot']
 
-X_train = X_train.astype('float32') / 255.0
-X_val = X_val.astype('float32') / 255.0
-
-
-y_train = to_categorical(y_train, len(labels))
-y_val = to_categorical(y_val, len(labels))
 ########################################################################################################
 
 ### MODEL PREPARE
@@ -35,15 +27,17 @@ model.compile(optimizer='adam',
 
 
 
-def start(X_train, y_train, epchos, verbose, batch_size, validation_data):
+################################# MODEL TRAIN ######################################################
+def start(X_train, y_train, epchos, verbose, batch_size, X_val, y_val):
     history = model.fit(X_train,
                         y_train,
-                        epochs=50,
-                        verbose=1,
-                        batch_size=256,
+                        epochs=epchos,
+                        verbose=verbose,
+                        batch_size=batch_size,
                         validation_data=(X_val, y_val))
     return history
 
+################################# PLOTS ###################################################
 def draw_curves(history, key1='accuracy', ylim1=(0.8, 1.00),
                 key2='loss', ylim2=(0.0, 1.0)):
 
@@ -67,4 +61,14 @@ def draw_curves(history, key1='accuracy', ylim1=(0.8, 1.00),
 
     plt.show()
 
-
+################ TESTING #########################################
+# fashion_mnist = tf.keras.datasets.fashion_mnist
+# (X_train, y_train), (X_val, y_val) = fashion_mnist.load_data()
+#
+# X_train = X_train.astype('float32') / 255.0
+# X_val = X_val.astype('float32') / 255.0
+# y_train = to_categorical(y_train, len(labels))
+# y_val = to_categorical(y_val, len(labels))
+#
+# history = start(X_train, y_train, 50, 1, 256, X_val, y_val)
+# draw_curves(history=history)

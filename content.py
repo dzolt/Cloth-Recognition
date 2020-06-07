@@ -1,13 +1,7 @@
 import numpy as np
 from utils import mnist_reader
 
-X_train, y_train = mnist_reader.load_mnist('data/fashion', kind='train')
-X_test, y_test = mnist_reader.load_mnist('data/fashion', kind='t10k')
-k_values = [i for i in range(1, 150)]
 
-# Wartości dzielone na 255 w celu optymalizacji działań
-X_train = X_train.astype('float32') / 255.0
-X_test = X_test.astype('float32') / 255.0
 
 def manhattan_distance(X, X_train):
     '''
@@ -101,3 +95,14 @@ def model_selection_knn(X_val, X_train, y_val, y_train, k_values):
             best_k = k
     print(f"Best accuracy: {1 - best_err} \nBest k: {best_k}")
     return 1 - best_err, best_k
+
+########################### TEST #############################
+# X_train, y_train = mnist_reader.load_mnist('data/fashion', kind='train')
+# X_val, y_val = mnist_reader.load_mnist('data/fashion', kind='t10k')
+# k_values = [i for i in range(1, 150)]
+#
+# # Wartości dzielone na 255 w celu optymalizacji działań
+# X_train = X_train.astype('float32') / 255.0
+# X_val = X_val.astype('float32') / 255.0
+# KNN_BEST_ACC, KNN_BEST_K = model_selection_knn(X_val, X_train, y_val, y_train, k_values)
+
