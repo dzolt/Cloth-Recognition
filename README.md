@@ -148,6 +148,7 @@ prawdopodbieństwo.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Moja siatka neuronowa potrafi dojść do precyzji równej 0.896. A przy zbiorach walidacyjnych osiąga
 skuteczność bliską 95%. 
+
 ![Neuron_highest_acc](./pictures/Neuron_highest_acc.PNG)
 
 ![Neuron_training_acc](./pictures/test_acc.PNG)
