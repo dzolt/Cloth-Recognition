@@ -13,11 +13,13 @@ labels = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat', 'Sandal', 'Shir
 ### MODEL PREPARE
 model = Sequential()
 model.add(Flatten(input_shape=(28, 28)))
+model.add(Dense(512, activation='sigmoid'))
+model.add(Dropout(0.2))
+model.add(Dense(256, activation='sigmoid'))
+model.add(Dropout(0.2))
 model.add(Dense(128, activation='sigmoid'))
 model.add(Dropout(0.2))
 model.add(Dense(64, activation='sigmoid'))
-model.add(Dropout(0.2))
-model.add(Dense(32, activation='sigmoid'))
 model.add(Dropout(0.2))
 model.add(Dense(10, activation='softmax'))
 
@@ -28,16 +30,20 @@ model.compile(optimizer='adam',
 
 
 ################################# MODEL TRAIN ######################################################
-def start(X_train, y_train, epchos, verbose, batch_size, X_val, y_val):
+
+def start(X_train, y_train, epchos, verbose, batch_size, validation_split):
     history = model.fit(X_train,
                         y_train,
                         epochs=epchos,
                         verbose=verbose,
                         batch_size=batch_size,
-                        validation_data=(X_val, y_val))
+                        validation_split = validation_split)
     return history
 
+def evaluate(X_val, y_val, batch_size):
+    model.evaluate(X_val, y_val, batch_size=batch_size)
 ################################# PLOTS ###################################################
+
 def draw_curves(history, key1='accuracy', ylim1=(0.8, 1.00),
                 key2='loss', ylim2=(0.0, 1.0)):
 
@@ -62,13 +68,14 @@ def draw_curves(history, key1='accuracy', ylim1=(0.8, 1.00),
     plt.show()
 
 ################ TESTING #########################################
-# fashion_mnist = tf.keras.datasets.fashion_mnist
-# (X_train, y_train), (X_val, y_val) = fashion_mnist.load_data()
-#
-# X_train = X_train.astype('float32') / 255.0
-# X_val = X_val.astype('float32') / 255.0
-# y_train = to_categorical(y_train, len(labels))
-# y_val = to_categorical(y_val, len(labels))
-#
-# history = start(X_train, y_train, 50, 1, 256, X_val, y_val)
+fashion_mnist = tf.keras.datasets.fashion_mnist
+(X_train, y_train), (X_val, y_val) = fashion_mnist.load_data()
+
+X_train = X_train.astype('float32') / 255.0
+X_val = X_val.astype('float32') / 255.0
+y_train = to_categorical(y_train, len(labels))
+y_val = to_categorical(y_val, len(labels))
+
+history = start(X_train, y_train, 50, 0, 32, 0.2)
+evaluate(X_val, y_val, batch_size=32)
 # draw_curves(history=history)

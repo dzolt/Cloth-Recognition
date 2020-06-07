@@ -22,9 +22,12 @@ def main():
     print("=========================================================================\n")
     print("                              NEURON LEARNING PREDICTION                             \n")
 
-    history = neuron_network.start(X_train, y_train, 50, 1, 50, X_val, y_val)
+    history = neuron_network.start(X_train, y_train, 50, 1, 60, 0.2)
     print("              DRAWING PLOTS TO SHOW ACCURACY:            \n")
     neuron_network.draw_curves(history=history)
+
+    print("                        NEURON ACCURACY AND LOSS OUTPUT                            \n")
+    neuron_network.evaluate(X_val, y_val, 32)
 
 
 if __name__ == "__main__":

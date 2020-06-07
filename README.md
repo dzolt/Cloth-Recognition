@@ -101,7 +101,36 @@ nieco prostszy w implementacji i wystarcza na wykonanie tego zadania. Configurac
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Na początku zdefiniowałem wszystkie etykiety występujące w danym problemie klasyfikacyjnym.
 Po czym utworzyłem instancję klasy Sequential, która tworzy nam podstawową sieć neuronową.  
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Teraz należało ją zoptymalizować. 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Teraz należało ją zoptymalizować. Na początku konfigurowania sieci musimy podać jaki rozmiar
+danych będzie wprowadzany do sieci na wejściu. Służy do tego funkcja **add(Flatten(input_shape=(28,28)))**, która informuje sieć, że
+dane wprowadzane będą miały format spłaszczonej macierzy 28x28, przyjmujacej postać wektora 1x784. Następnie za pomocą funkcji 
+**add(Dense())** dodajemy kolejne warstwy do sieci neuronowej odpowiedzialne za przekazywanie danych i operacje na nich. Liczba która
+stoi jako pierwsza w owej funkcji odpowiada za ilość neuronów jaka znajdzie się w tworzonej warstwie sieci, a argument activation oznacza
+funkcję aktywacji jaka zostanie zastosowana na danych. W moim przypadku jest to funkcja sigmoid, zwracająca liczby z przedziału [0, 1],
+które można interpretować jako prawdopodobieństwo. Warstwy gęste, czyli Dense, są dostępne dla każdych innych neuronów w kolejnych jak
+i poprzednich warstwach. Oznacza to, że każdy neuron z warstwy wcześniej może połączyć się z neuronem warstwy późniejszej. 
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;W celu lepszej optymalizacji modelu i uniknięcia sytuacji overfittingu wykorzystałem funkcję **Dropout()**, powodującą ustawienie losowych neurnów na
+wartość 0. Ilość neuronów jest specyfikowana w argumencie funkcji i oznacza procent wszystkich neuronów w kolejnej warstwie. W ten sposób
+nasza sieć będzie uczyła się danych wolniej i unikniemy sytuacji gdzie po kilku pierwszych przejściach sieć zapisze sobie większość danych
+treningowych.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Na koniec musimy zdefiniować tak zwaną funkcję wyjścia, za którą przyjąłem softmax. Ta funkcja transformuje 
+dane wyjściowe tak, aby znalazły się w przedziale [0, 1] i sumowały razem do 1, tak aby móc uznać wartości wyjściowe jako prawdopodobieństwo.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Po takiej konfiguracji należy jeszcze określić funkcję błędu oraz funkcję, która ten błąd będzie optymalizować.
+Zastosowałem tutaj funkcję błedu categorical crossentopy (stosowanej do tzw.multi-class classification, gdzie mamy 2 lub więcej ekskluzywnych klas),
+która będzie optymalizowana przez algorytm ADAM.
+
+![Neuron_opt](./pictures/Neuron_optimizer.PNG)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Teraz można przystąpić do nauki sieci neuronowej. Wykonujemy to na danych treningowych, podając liczbę epok i rozmiarów
+batchy, na które zbiór treningowy zostanie podzielony. Podajemy też procent, jaki zostanie wykorzystany z danych treningowych, jako dane walidacyjne. 
+Po wytrenowaniu sieci neuronowej przystępujemy do walidacji danych podając jako argumenty zbiory walidacyjne oraz rozmiar batchy na jaki zostaną podzielone 
+zbiory. Metodą prób i błędów doszedłem do wniosków, że uczenie sieci będzie optymalne przy 50 epokach, batchach o rozmiarze 32 oraz proporcją 0.2/0.8 danych
+walidacyjnych z danych treningowych. Analogicznie przy ewaluacji modelu optymalną liczbą batchy okazała się liczba 32.
+
+![Neuron_train_set](./pictures/Neuron_train_net.PNG)
  
 ## Results
 

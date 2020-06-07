@@ -12,14 +12,15 @@ def manhattan_distance(X, X_train):
     :return: macierz odległości pomiędzy obiektami z X i X_train
     '''
 
-    X = X.astype('float32')
-    X_train = X_train.astype('float32')
-    Dist = np.zeros(shape=(len(X), len(X_train)))
+    # X = X.astype('float32')
+    # X_train = X_train.astype('float32')
+    # Dist = np.zeros(shape=(len(X), len(X_train)))
+    #
+    # for i in range(0, len(X)):
+    #     Dist[i] = np.sum(abs(X_train - X[i]), axis=1)
 
-    for i in range(0, len(X)):
-        Dist[i] = np.sum(abs(X_train - X[i]), axis=1)
-
-    return Dist
+    #return Dist
+    return np.linalg.norm(X - X_train)
 
 def sort_train_labels(Dist, y):
     """
