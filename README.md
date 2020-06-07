@@ -158,7 +158,7 @@ skuteczność bliską 95%.
 
 ![benchmark_highest_acc](./pictures/Benchmark_highest_acc.PNG)
 
-#Model summary
+# Model summary
 
 ![model_summary](./pictures/Model_summary.PNG)
 
