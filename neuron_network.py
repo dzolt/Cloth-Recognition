@@ -67,15 +67,19 @@ def draw_curves(history, key1='accuracy', ylim1=(0.8, 1.00),
 
     plt.show()
 
+def model_summary():
+    model.summary()
+
+#model_summary()
 ################ TESTING #########################################
-fashion_mnist = tf.keras.datasets.fashion_mnist
-(X_train, y_train), (X_val, y_val) = fashion_mnist.load_data()
-
-X_train = X_train.astype('float32') / 255.0
-X_val = X_val.astype('float32') / 255.0
-y_train = to_categorical(y_train, len(labels))
-y_val = to_categorical(y_val, len(labels))
-
-history = start(X_train, y_train, 50, 0, 32, 0.2)
-evaluate(X_val, y_val, batch_size=32)
+# fashion_mnist = tf.keras.datasets.fashion_mnist
+# (X_train, y_train), (X_val, y_val) = fashion_mnist.load_data()
+#
+# X_train = X_train.astype('float32') / 255.0
+# X_val = X_val.astype('float32') / 255.0
+# y_train = to_categorical(y_train, len(labels))
+# y_val = to_categorical(y_val, len(labels))
+#
+# history = start(X_train, y_train, 50, 1, 32, 0.2)
+# evaluate(X_val, y_val, batch_size=32)
 # draw_curves(history=history)

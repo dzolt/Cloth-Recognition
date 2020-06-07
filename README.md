@@ -131,13 +131,59 @@ zbiory. Metodą prób i błędów doszedłem do wniosków, że uczenie sieci bę
 walidacyjnych z danych treningowych. Analogicznie przy ewaluacji modelu optymalną liczbą batchy okazała się liczba 32.
 
 ![Neuron_train_set](./pictures/Neuron_train_net.PNG)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tak więc stworzyliśmy tutaj model, który optymalizowany jest przez funkcję wcześniej nie używaną na zajęciach ADAM oraz
+sieć neuronową, która dane wielokrotnie modyfikuje opakowując je w funkcję sigmoidalne, a następnie sprowadza je do przedziału [0, 1], abyśmy mogli wyznaczyć
+prawdopodbieństwo. 
  
 ## Results
 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Szukając wyników na benchmarku możemy spotkać się z następującymi wynikami dla algorytmu KNeareastNeighbours:
+
+![KNN_Benchmark](./pictures/K_NN_benchmark.PNG)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Maksymalny osiąga 86%, natomiast mój algorytm KNN osiąga wartość 0.859
+
+![KNN_best_acc](./pictures/KNN_best_acc.png)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Moja siatka neuronowa potrafi dojść do precyzji równej 0.896. A przy zbiorach walidacyjnych osiąga
+skuteczność bliską 95%. 
+![Neuron_highest_acc](./pictures/Neuron_highest_acc.PNG)
+
+![Neuron_training_acc](./pictures/test_acc.PNG)
+
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Na benchmarku możemy jeszcze zobaczyć, że najlepsze precyzje uzyskały osoby stosujące algorytm SVC i prezentują się następująco:
+
+![benchmark_highest_acc](./pictures/Benchmark_highest_acc.PNG)
+
+#Model summary
+
+![model_summary](./pictures/Model_summary.PNG)
+
 ## Usage
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Aby uruchomić program wystarczy zaciągnąć repozytorium z gita a następnie uruchomić plik main i obserować konsolę w celu odczytania wyników.
+Aby osiągnąć te wyniki co ja nie należy nic zmieniać w plikach, a tylko uruchomić program. Algorytm KNN dosyć długo się ładuje (okolice 30-45min u mnie), a sama sieć neuronowa to
+granice 5-10 minut.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Można pobawić się parametrami wywołania funkcji zmienić liczbę epok, batchy czy neuronów, wszystko to w jakimś stopniu wpłynie na wartość rozwiązania. Wartości 
+obrane przezemnie zostały przetestowane z różnymi kombinacjami i w takiej konfiguracji okazały się być optymalne.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Jeśli chcielibyśmy przetestować sam KNN bądź samą sieć nalezy odkomentować sekcję TEST w klasie, która nas interesuje i uruchomić tę klasę.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Aby sam program zadziałał wymagana jest:
+* biblioteka NumPy
+* Python w wersji 3.+
+* środowisko programistyczne do Pythona np. PyCharm
+* katalogi data, pictures oraz utils zawarte w tym repozytorium
+* bilbioteka tensorflow
 
 
 ## Przypisy
+Robiąc to zadanie inspirowałem się poniższymi źródłami, jednak sama optymalizacja samej sieci odbyła się metodą prób i błędów testując różne kombinacje, które udało
+mi się wymyśleć.
 * [Zalando github](https://github.com/zalandoresearch/fashion-mnist)
 * [Neural network tutorial](https://miroslawmamczur.pl/przykladowa-siec-neuronowa-mlp-w-tensorflow/?fbclid=IwAR35Pj0r1ul3cFH0RMnKZabto7Er0AfQN7vT9wfrbgq_RIm8ZnM3Ti_INaA)
 * [KNN image classification](https://medium.com/@YearsOfNoLight/intro-to-image-classification-with-knn-987bc112f0c2)
