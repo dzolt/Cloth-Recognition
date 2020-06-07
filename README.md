@@ -5,7 +5,8 @@ Made by Damian Żółtowski 246651 on 07.06.2020
 
 ## Introduction
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Celem zadania była implementacja modelu, który pozwoli
-zakwalifikować zdjęcia reprezentujące ubrania.  
+zakwalifikować zdjęcia reprezentujące ubrania. 
+ 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Aby tego dokonać należało pobrać odpowiednie pliki 
 zawierające dane testowe oraz walidacyjne z gita zalandoresearch. Następnie należało 
 zadeklarować odpowiednie metody pozwalające stwierdzić do jakiej grupy ubrań zdjęcie ze 
@@ -51,6 +52,7 @@ jakim jest KNN. Jest to model nieparametryczny, czyli taki, dla którego paramet
 Rozwiązanie tego problemu owym algorytmem sprowadza się do predykcji etykiety danego obrazu na podstawie, podobieństwa jakie ma ono z innymi obrazami.
 W przypadku klasyfikacji testów i ich etykiet korzystaliśmy z metryki Hamminga, która opierała się na zwykłym porównaniu tekstów, czy słowo występuje,
 czy też nie.  
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tutaj natomiast nie możemy wykorzystać tej metody dlatego, że wartość pixela waha się w przedziale od 0 do 255.
 Dlatego też jesteśmy zmuszeni użyć tutaj innej metryki. Można wykorzystać metrykę Euclidesową albo metrykę Manhatanna. Ta druga została zaimplementowana
 w moim programie, a od Euclidesowej różni się jedynnie tym, że zamiast wartości bezwzględnej różnicy między pixelami, podnosimy je do kwadratu a następnie 
@@ -77,7 +79,30 @@ zakwalifikowanych przez nasz program jako odpowiadające im etykiety, przyrównu
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Teraz należałó wybrać model, o najmniejszym błędzie klasyfikacji, przy róznych wartościach k.
 Wykonałem klasyfikację modeli na podstawie ciągów walidacyjnych i testowych oraz ciągu zawierającego różną liczbę sąsiadów.
 Funkcja zwraca najlepszą dokładność jaką udało się uzyskać oraz liczbę K sąsiadów, dla której owa wartość wystąpiła.
+
 ![select_mod](./pictures/mod_selec.PNG)
+
+#### NEURON NETWORK APPROACH
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Zdecydowałem się spróbować napisać sieć neurnową do tego zadania, ponieważ bardzo ciekawiło
+mnie jak się to robi i jakie mogą być rezultaty. Okazuje się, że wynik jest bardzo podobny w obydwu przypadkach, jendakże dobrze
+zoptymalizowana sieć neuronowa potrafi ten sam problem klasyfikacyjny rozwiązać w minutę, kiedy na algorytm KNN potrzeba około 
+pół godziny. Sieć napisana jest przy pomocy pakietu tensorflow oraz bibliotek, jakie on oferuje.  
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sieci neuronowe muszą mieć poprawnie przygotowane dane, tj. na wejściu dane muszą mieć 
+identyczne rozmiary. U nas obrazy mają rozmiar 28x28 pixeli więc przedstawiłem je w wektor charakterystyk o wielkości 1x784
+(28 * 28 = 784).  
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Do zaimplementowania sieci neuronowej skorzystałem z interfejsu sekwencyjnego, który jest
+nieco prostszy w implementacji i wystarcza na wykonanie tego zadania. Configuracja sieci wygląda nastepująco:  
+
+![Neuron_conf](./pictures/Neuron_conf.PNG)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Na początku zdefiniowałem wszystkie etykiety występujące w danym problemie klasyfikacyjnym.
+Po czym utworzyłem instancję klasy Sequential, która tworzy nam podstawową sieć neuronową.  
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Teraz należało ją zoptymalizować. 
+ 
 ## Results
 
 ## Usage
