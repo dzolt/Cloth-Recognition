@@ -2,7 +2,8 @@ import tensorflow as tf
 from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Flatten, Dense
-
+from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
+from tensorflow.keras import regularizers
 
 ### DATA PREPARE
 fashion_mnist = tf.keras.datasets.fashion_mnist
@@ -20,14 +21,17 @@ y_val = to_categorical(y_val, len(labels))
 
 ### MODEL PREPARE
 model = Sequential()
+ModelCheck = ModelCheckpoint(filepath='best_model.h5',
+                             monitor='val_accuracy',
+                             save_best_only=True)
+EarlyStop = EarlyStopping(monitor='val_loss',
+                          patience=5,
+                          verbose=1)
 
-# obrazy mają rozmiar 28x28 więc spłaszczamy je do 1x784
 model.add(Flatten(input_shape=(28, 28)))
-
-# 128 to liczba neuronów na które składa się funkcja
 model.add(Dense(128, activation='sigmoid'))
-
-# 10 to liczba neuronów równa liczbie klas
+model.add(Dense(64, activation='sigmoid'))
+model.add(Dense(32, activation='sigmoid'))
 model.add(Dense(10, activation='softmax'))
 
 model.compile(optimizer='adam',
@@ -36,7 +40,8 @@ model.compile(optimizer='adam',
 
 history = model.fit(X_train,
                     y_train,
-                    epochs=10,
+                    epochs=50,
                     verbose=1,
                     batch_size=256,
-                    validation_data=(X_val, y_val))
+                    validation_data=(X_val, y_val),
+                    callbacks=[ModelCheck, EarlyStop])
