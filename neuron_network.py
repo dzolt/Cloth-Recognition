@@ -4,10 +4,6 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Flatten, Dense, Dropout
 import matplotlib.pyplot as plt
 
-### DATA PREPARE
-labels = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat', 'Sandal', 'Shirt', 'Sneaker',
-          'Bag', 'Ankle boot']
-
 ########################################################################################################
 
 ### MODEL PREPARE
@@ -72,6 +68,8 @@ def model_summary():
 
 #model_summary()
 ################ TESTING #########################################
+# labels = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat', 'Sandal', 'Shirt', 'Sneaker',
+#           'Bag', 'Ankle boot']
 # fashion_mnist = tf.keras.datasets.fashion_mnist
 # (X_train, y_train), (X_val, y_val) = fashion_mnist.load_data()
 #
